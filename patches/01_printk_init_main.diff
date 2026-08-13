@@ -1,0 +1,14 @@
+# 自定义 printk：在 start_kernel() 的版本 banner 后加一行日志
+# 文件: init/main.c（linux-6.8.12）
+# 验证: 重启后 sudo dmesg | grep MY-KERNEL
+
+--- a/init/main.c
++++ b/init/main.c
+@@ start_kernel() 中 pr_notice("%s", linux_banner); 之后：
+ 	pr_notice("%s", linux_banner);
++	pr_info("MY-KERNEL: 我自己编译的内核启动成功\n");
+ 	early_security_init();
+
+# 说明
+# - pr_info 写进内核环形缓冲区(/dev/kmsg)，不一定上控制台，dmesg 一定看得到
+# - 想当时上控制台：启动参数加 loglevel=7 或 earlycon

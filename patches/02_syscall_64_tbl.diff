@@ -1,0 +1,13 @@
+# 自定义 syscall 号：452 hello
+# 文件: arch/x86/entry/syscalls/syscall_64.tbl（linux-6.8.12）
+# 格式: <number> <abi> <name> <entry point>   abi=common 自动生成 64 位+ia32 compat 入口
+
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -451 是最后一个(lvm_list_modules)，452 是下一个空号：
+ 451	common	lsm_list_modules		sys_lsm_list_modules
++452	common	hello			sys_hello
+
+# 编译时会自动生成：
+# - arch/x86/include/generated/uapi/asm/unistd_64.h  → #define __NR_hello 452（用户态可见）
+# - arch/x86/include/generated/asm/syscalls_64.h    → sys_call_table 表项

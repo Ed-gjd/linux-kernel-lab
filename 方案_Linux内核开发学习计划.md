@@ -69,7 +69,7 @@ tar -xJf linux-6.8.12.tar.xz && cd linux-6.8.12
 
 ### 步骤 2｜配置
 ```bash
-zcat /proc/config.gz > .config
+cp /boot/config-$(uname -r) .config    # 用已装内核配置打底（本机 /proc/config.gz 为空，改用 /boot/config-<ver>）
 scripts/config --disable DEBUG_INFO --disable DEBUG_INFO_BTF   # 省 ~10G 磁盘
 make olddefconfig
 ```
@@ -157,6 +157,18 @@ SecureBoot 拦无签名内核 / 1G 内存 OOM(已3G避开) / DEBUG_INFO 不关�
 | TUNA | mirrors.tuna.tsinghua.edu.cn/kernel/ 直连 200 ✓（有 6.8.12/6.12.103/6.19.14） |
 
 **网络决策**：源包下载走 TUNA 直连；保底本机代理。
+
+### VM 内实测（2026-08-13）
+| 项 | 实测 | 说明 |
+|---|---|---|
+| 内核 | 6.8.0-136-generic | 符合预期 |
+| 内存 | 3G 实占 + 4G swap | -j2 编译稳 |
+| 磁盘 | / = 19G 可用；/boot = 1.6G；**LVM VFree 28.5G** | 紧但够，VFree 可应急扩容 |
+| gcc | 13.3.0 | 编 6.8 无压力 |
+| 配置源 | **/proc/config.gz 为空（IKCONFIG_PROC 未开）** | 用 /boot/config-6.8.0-136-generic 打底 |
+| 依赖 | 缺 libelf-dev/flex/bison/libncurses-dev | apt 直连 200，装即可 |
+| SecureBoot | **disabled** | 无签名内核可引导 |
+| 网络 | TUNA / archive.ubuntu / cdn.kernel.org 直连全 200 | VM 出口全通，免代理 |
 
 ---
 
