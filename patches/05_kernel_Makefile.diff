@@ -1,0 +1,7 @@
+# 把 kernel/hello.c 编进内核镜像（obj-y，非模块 obj-m）
+# 文件: kernel/Makefile（linux-6.8.12）
+
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ 在 obj-y 相关行附近：
++obj-y += hello.o

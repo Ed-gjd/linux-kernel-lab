@@ -1,0 +1,8 @@
+# 给自定义 syscall 加原型（防 -Wmissing-prototypes 警告；与 SYSCALL_DEFINE0 生成的符号匹配）
+# 文件: include/linux/syscalls.h
+
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ 文件末尾附近：
+ 	asmlinkage long sys_lsm_list_modules(void);
++	asmlinkage long sys_hello(void);
